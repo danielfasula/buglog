@@ -15,7 +15,7 @@
     </div>
     <div class="row justify-content-center mt-3">
       <div class="col-10">
-        <table class="table">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">Title</th>

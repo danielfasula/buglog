@@ -1,8 +1,8 @@
 <template>
-  <div class="create-bug-modal">
+  <div class="create-note-modal">
     <div
       class="modal fade"
-      id="create-bug"
+      id="create-note"
       tabindex="-1"
       role="dialog"
       aria-labelledby="modelTitleId"
@@ -11,7 +11,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Report a Bug</h5>
+            <h5 class="modal-title">Add a Note</h5>
             <button
               type="button"
               class="close"
@@ -22,25 +22,16 @@
             </button>
           </div>
           <div class="modal-body">
-            <form @submit.prevent="createBug">
+            <form @submit.prevent="createNote">
               <div class="form-group">
-                <input
-                  type="text"
-                  name="title"
-                  id="title"
-                  class="form-control"
-                  placeholder="Enter Bug Title"
-                  aria-describedby="helpId"
-                  v-model="state.newBug.title"
-                />
                 <textarea
                   type="text"
-                  name="description"
-                  id="description"
+                  name="body"
+                  id="body"
                   class="form-control"
-                  placeholder="Enter Bug Description"
+                  placeholder="Enter Note Here"
                   aria-describedby="helpId"
-                  v-model="state.newBug.description"
+                  v-model="state.newNote.body"
                 />
               </div>
             </form>
@@ -53,8 +44,8 @@
             >
               Close
             </button>
-            <button class="btn btn-success" @click="createBug">
-              Send Report
+            <button class="btn btn-success" @click="createNote">
+              Add Note
             </button>
           </div>
         </div>
@@ -64,29 +55,28 @@
 </template>
 <script>
 import { reactive, computed } from 'vue'
-import { bugsService } from '../services/BugsService'
+import { notesService } from '../services/NotesService'
 import { logger } from '../utils/Logger'
 import $ from 'jquery'
-import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
 export default {
-  name: 'CreateBugModal',
+  name: 'CreateNoteModal',
   setup() {
-    const router = useRouter()
     const state = reactive({
       user: computed(() => AppState.user),
-      newBug: {}
+      bug: computed(() => AppState.activeBug),
+      newNote: {}
     })
     return {
       state,
-      async createBug() {
+      async createNote() {
         try {
-          state.newBug.creator = state.user
-          state.newBug.creatorId = state.user.id
-          const bugId = await bugsService.createBug(state.newBug)
-          $('#create-bug').modal('hide')
-          router.push({ name: 'BugDetailsPage', params: { id: bugId } })
-          state.newBug = {}
+          $('#create-note').modal('hide')
+          state.newNote.creator = state.user
+          state.newNote.creatorId = state.user.id
+          state.newNote.bug = state.bug.id
+          await notesService.createNote(state.newNote)
+          state.newNote = {}
         } catch (error) {
           logger.log(error)
         }
