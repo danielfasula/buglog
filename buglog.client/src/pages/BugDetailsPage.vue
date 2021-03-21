@@ -1,7 +1,21 @@
 <template>
-  <div class="bug-details-page container-fluid">
-    <div class="row mt-3">
-      <p class="col">Title:</p>
+  <div class="bug-details-page container-fluid" v-if="state.bug.creator">
+    <div class="row mt-3 d-flex justify-content-between">
+      <p class="col-1">Title:</p>
+      <div class="col-1">
+        <div v-if="!state.bug.closed">
+          <button
+            v-if="state.bug.creator.name == state.user.email"
+            type="button"
+            class="btn btn-lg"
+            data-toggle="modal"
+            data-target="#edit-bug"
+          >
+            <i class="far fa-edit"></i>
+          </button>
+          <EditBugModal />
+        </div>
+      </div>
     </div>
     <div class="row">
       <h1 class="col">
@@ -31,14 +45,16 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 my-2" id="close-button">
+    <div v-if="state.bug.creator.name == state.user.email" class="row">
+      <div v-if="!state.bug.closed" class="col-12 my-2" id="close-button">
         <!-- NOTE add functionality to close bug button, and dont allow close if already closed -->
-        <button type="button" class="btn btn-danger">Close Bug</button>
+        <button type="button" class="btn btn-danger" @click="closeBug">
+          Close Bug
+        </button>
       </div>
     </div>
     <div class="row d-flex justify-content-center">
-      <table class="table col-10 mt-3">
+      <table class="table sortable col-10 mt-3">
         <thead>
           <tr>
             <th scope="col">Name</th>
@@ -50,19 +66,21 @@
       </table>
     </div>
 
-    <div class="row">
-      <div
-        v-if="state.user.isAuthenticated"
-        class="col-12 d-flex justify-content-end"
-      >
-        <button
-          type="button"
-          class="btn btn-info btn-lg"
-          data-toggle="modal"
-          data-target="#create-note"
+    <div v-if="!state.bug.closed">
+      <div class="row">
+        <div
+          v-if="state.user.isAuthenticated"
+          class="col-12 d-flex justify-content-end"
         >
-          Add
-        </button>
+          <button
+            type="button"
+            class="btn btn-info btn-lg"
+            data-toggle="modal"
+            data-target="#create-note"
+          >
+            Add
+          </button>
+        </div>
         <CreateNoteModal />
       </div>
     </div>
@@ -85,7 +103,7 @@ export default {
     const state = reactive({
       loading: true,
       bug: computed(() => AppState.activeBug),
-      notes: computed(() => AppState.activeNotes),
+      notes: computed(() => AppState.notes),
       user: computed(() => AppState.user)
     })
     onMounted(async () => {
@@ -98,10 +116,16 @@ export default {
       next()
     })
     return {
-      state
+      state,
+      async closeBug() {
+        if (!state.bug.closed) {
+          if (window.confirm('Are you sure? This will be irreversible.')) {
+            await bugsService.closeBug(state.bug.id)
+          }
+        }
+      }
     }
-  },
-  components: {}
+  }
 }
 </script>
 

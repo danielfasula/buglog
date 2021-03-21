@@ -1,8 +1,8 @@
 <template>
-  <div class="create-bug-modal">
+  <div class="edit-bug-modal">
     <div
       class="modal fade"
-      id="create-bug"
+      id="edit-bug"
       tabindex="-1"
       role="dialog"
       aria-labelledby="modelTitleId"
@@ -11,7 +11,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Report a Bug</h5>
+            <h5 class="modal-title">Edit Bug</h5>
             <button
               type="button"
               class="close"
@@ -22,26 +22,28 @@
             </button>
           </div>
           <div class="modal-body">
-            <form @submit.prevent="createBug">
+            <form @submit.prevent="editBug">
               <div class="form-group">
-                <input
-                  type="text"
-                  name="title"
-                  id="title"
-                  class="form-control mb-2"
-                  placeholder="Enter Bug Title"
-                  aria-describedby="helpId"
-                  v-model="state.newBug.title"
-                />
-                <textarea
-                  type="text"
-                  name="description"
-                  id="description"
-                  class="form-control"
-                  placeholder="Enter Bug Description"
-                  aria-describedby="helpId"
-                  v-model="state.newBug.description"
-                />
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    class="form-control mb-2"
+                    placeholder="Enter Bug Title"
+                    aria-describedby="helpId"
+                    v-model="state.bug.title"
+                  />
+                  <textarea
+                    type="text"
+                    name="description"
+                    id="description"
+                    class="form-control"
+                    placeholder="Enter Bug Description"
+                    aria-describedby="helpId"
+                    v-model="state.bug.description"
+                  />
+                </div>
               </div>
             </form>
           </div>
@@ -53,9 +55,7 @@
             >
               Close
             </button>
-            <button class="btn btn-success" @click="createBug">
-              Send Report
-            </button>
+            <button class="btn btn-success" @click="editBug">Edit</button>
           </div>
         </div>
       </div>
@@ -67,26 +67,20 @@ import { reactive, computed } from 'vue'
 import { bugsService } from '../services/BugsService'
 import { logger } from '../utils/Logger'
 import $ from 'jquery'
-import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
 export default {
-  name: 'CreateBugModal',
+  name: 'EditBugModal',
   setup() {
-    const router = useRouter()
     const state = reactive({
       user: computed(() => AppState.user),
-      newBug: {}
+      bug: computed(() => AppState.activeBug)
     })
     return {
       state,
-      async createBug() {
+      async editBug() {
         try {
-          state.newBug.creator = state.user
-          state.newBug.creatorId = state.user.id
-          const bugId = await bugsService.createBug(state.newBug)
-          $('#create-bug').modal('hide')
-          router.push({ name: 'BugDetailsPage', params: { id: bugId } })
-          state.newBug = {}
+          await bugsService.editBug(state.bug)
+          $('#edit-bug').modal('hide')
         } catch (error) {
           logger.log(error)
         }

@@ -1,0 +1,26 @@
+[x] Users Can Register, Login, and Logout
+[x] At least 2 supported front end routes, Bugs and BugDetails
+[x] The BugDetails route uses a route parameter and renders the bug on refresh
+[x] Navbar to allow navigating back to Bugs page
+[x] The Bugs Page shows all bugs
+[x] The list of Bugs are rendered in an orderly fashion (table or cards)
+[x] The Bugs can be sorted or filtered by their status
+[x] Styling Indication on bugs page that bug is closed (color, strike-through, etc.)
+[x] Creating a new bug automatically navigates to the BugDetails page
+[x] The BugDetails displays all the details of a bug, its status and notes
+[x] The BugDetails page renders notes in an orderly fashion (table or cards)
+[x] Bugs and notes show their authors name and image
+[x] Bugs display last modified date in a standardized format (MM-DD-YYYY)
+[x] Users can only modify/delete data they created
+[x] Bugs can be created from the Bugs page
+[x] Bugs can be closed from the BugDetails page
+[x] Notes can be added and removed from a bug in the BugDetails page
+[x] User is prompted 'are you sure?' when closing a Bug and their choice respected
+[x] User is prompted 'are you sure?' to remove Note from Bug and their choice respected
+[x] A Bug can be edited if it is not closed
+[x] A Bug Cannot be edited after it is closed
+[x] Only the DELETE Bug route can be used to close a bug
+[x] The PUT route does not allow the closed status to be changed
+[x] The Client and Server enforce all above independently
+NOTE need this one
+[] Api passes all Postman Tests
