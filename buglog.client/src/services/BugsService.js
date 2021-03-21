@@ -31,6 +31,7 @@ class BugsService {
     try {
       const res = await api.put('api/bugs/' + bug.id, bug)
       AppState.activeBug = res.data
+      this.getBug(bug.id)
     } catch (error) {
       logger.log(error)
     }

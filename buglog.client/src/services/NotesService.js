@@ -7,7 +7,6 @@ class NotesService {
     try {
       const res = await api.get('api/bugs/' + bugId + '/notes')
       AppState.notes = res.data
-      logger.log(res.data)
     } catch (error) {
       logger.log(error)
     }
