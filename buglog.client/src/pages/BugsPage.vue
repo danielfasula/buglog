@@ -149,4 +149,7 @@ export default {
 .fa-bug {
   font-size: 2em;
 }
+tbody:nth-child(even) {
+  background-color: white !important;
+}
 </style>
