@@ -1,5 +1,5 @@
 <template>
-  <div class="create-bug-modal">
+  <div class="create-bug-modal nope">
     <div
       class="modal fade"
       id="create-bug"
@@ -69,6 +69,7 @@ import { logger } from '../utils/Logger'
 import $ from 'jquery'
 import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
+import NotificationService from '../NotificationsService'
 export default {
   name: 'CreateBugModal',
   setup() {
@@ -87,6 +88,7 @@ export default {
           $('#create-bug').modal('hide')
           router.push({ name: 'BugDetailsPage', params: { id: bugId } })
           state.newBug = {}
+          NotificationService.toast('Thanks For Reporting A Bug!')
         } catch (error) {
           logger.log(error)
         }

@@ -1,5 +1,8 @@
 <template>
-  <div class="bug-details-page container-fluid" v-if="state.bug.creator">
+  <div
+    class="bug-details-page container-fluid text-white"
+    v-if="state.bug.creator"
+  >
     <div class="row mt-3 d-flex justify-content-between">
       <p class="col-1">Title:</p>
       <div class="col-1">
@@ -38,14 +41,14 @@
       <div id="status" class="col-3">
         <h3>
           <small class="pr-2">Status: </small>
-          <span v-if="!state.bug.closed" class="text-success">Open</span>
-          <span v-else class="text-danger">Closed</span>
+          <span v-if="!state.bug.closed" class="green">Open</span>
+          <span v-else class="red">Closed</span>
         </h3>
       </div>
     </div>
     <div class="row mt-3">
       <div class="col-12 justify-content-center">
-        <div class="card">
+        <div class="card bg-success">
           <div class="card-body">
             <h4>{{ state.bug.description }}</h4>
           </div>
@@ -54,16 +57,15 @@
     </div>
     <div v-if="state.bug.creator.name == state.user.email" class="row">
       <div v-if="!state.bug.closed" class="col-12 my-2" id="close-button">
-        <!-- NOTE add functionality to close bug button, and dont allow close if already closed -->
         <button type="button" class="btn btn-danger" @click="closeBug">
           Close Bug
         </button>
       </div>
     </div>
     <div class="row d-flex justify-content-center">
-      <table class="table sortable col-10 mt-3">
+      <table class="table col-10 mt-3">
         <thead>
-          <tr>
+          <tr class="text-white">
             <th scope="col">Name</th>
             <th scope="col">Message</th>
             <th scope="col">Delete</th>
@@ -100,6 +102,7 @@ import { AppState } from '../AppState'
 import { bugsService } from '../services/BugsService'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { notesService } from '../services/NotesService'
+import NotificationsService from '../NotificationsService'
 export default {
   name: 'BugDetailsPage',
   props: {
@@ -126,7 +129,7 @@ export default {
       state,
       async closeBug() {
         if (!state.bug.closed) {
-          if (window.confirm('Are you sure? This will be irreversible.')) {
+          if (await NotificationsService.confirmAction('Close That Bug!')) {
             await bugsService.closeBug(state.bug.id)
           }
         }

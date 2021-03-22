@@ -26,3 +26,29 @@ main {
 th {
   font-size: 1.4rem;
 }
+
+.green {
+  color: green;
+  text-shadow: 1px 1px black;
+}
+
+.red {
+  color: red;
+  text-shadow: 1px 1px black;
+}
+
+tbody:nth-child(even) {
+  background-color: var(--success);
+}
+
+tbody:nth-child(odd) {
+  background-color: var(--warning);
+}
+
+// tbody>tr>td #status:nth-child(even) {
+//   filter: brightness(100%);
+// }
+
+.nope {
+  color: black !important;
+}

@@ -2,17 +2,17 @@
   <tbody class="bug">
     <tr>
       <router-link :to="{ name: 'BugDetailsPage', params: { id: bug.id } }">
-        <th scope="col">
+        <th scope="col" class="nope">
           {{ bug.title }}
         </th>
       </router-link>
-      <td scope="col">
+      <td scope="col" class="nope">
         {{ bug.creator.name }}
       </td>
 
-      <td scope="col" v-if="!bug.closed" class="text-success">Open</td>
-      <td scope="col" v-else class="text-danger">Closed</td>
-      <td scope="col">
+      <td scope="col" v-if="!bug.closed" class="green">Open</td>
+      <td scope="col" v-else class="red">Closed</td>
+      <td scope="col" class="nope">
         {{ convertDate(bug.updatedAt) }}
       </td>
     </tr>
@@ -44,3 +44,9 @@ export default {
   components: {}
 }
 </script>
+
+<style scoped>
+.nope {
+  color: black !important;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success text-white">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Bugs' }">
       <div>
         <h3>Bug Log</h3>

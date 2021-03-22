@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-bug-modal">
+  <div class="edit-bug-modal nope">
     <div
       class="modal fade"
       id="edit-bug"

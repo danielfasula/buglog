@@ -1,5 +1,5 @@
 <template>
-  <div class="create-note-modal">
+  <div class="create-note-modal nope">
     <div
       class="modal fade"
       id="create-note"

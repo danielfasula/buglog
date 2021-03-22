@@ -1,5 +1,5 @@
 <template>
-  <tbody class="notes" v-if="note.creator">
+  <tbody class="notes nope" v-if="note.creator">
     <tr>
       <th scope="col">
         <img :src="note.creator.picture" height="30" class="mr-2" />
@@ -9,7 +9,6 @@
         {{ note.body }}
       </td>
       <td scope="col">
-        <!-- NOTE add delete functionality -->
         <button type="button" class="btn ml-1" @click="deleteNote">
           <i class="far fa-trash-alt"></i>
         </button>
@@ -22,6 +21,7 @@
 import { computed, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { notesService } from '../services/NotesService'
+import NotificationsService from '../NotificationsService'
 
 export default {
   name: 'Notes',
@@ -36,31 +36,19 @@ export default {
     return {
       state,
       async deleteNote() {
-        if (window.confirm('Are you sure?')) {
+        if (await NotificationsService.confirmAction()) {
           await notesService.deleteNote(props.note.id)
           notesService.getNotesByBugId(state.bug.id)
         }
-        // Swal.fire({
-        //   title: 'Are you sure?',
-        //   text: "You won't be able to revert this!",
-        //   icon: 'warning',
-        //   showCancelButton: true,
-        //   confirmButtonColor: '#3085d6',
-        //   cancelButtonColor: '#d33',
-        //   confirmButtonText: 'Yes, delete it!'
-        // }).then((result) => {
-        //   if (result.isConfirmed) {
-        //     notesService.deleteNote(props.note.id)
-        //     Swal.fire(
-        //       'Deleted!',
-        //       'Your Comment has been deleted.',
-        //       'success'
-        //     )
-        //   }
-        // })
       }
     }
   },
   components: {}
 }
 </script>
+
+<style scoped>
+.nope {
+  color: black !important;
+}
+</style>
