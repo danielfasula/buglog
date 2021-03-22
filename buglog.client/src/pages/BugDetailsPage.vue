@@ -23,9 +23,16 @@
       </h1>
     </div>
     <div class="row mt-2 d-flex justify-content-between">
-      <div class="col-7 text-left" v-if="state.bug.creator">
+      <div class="col-7 text-left d-flex" v-if="state.bug.creator">
         <h3>
-          <small class="pr-2">Reported By:</small> {{ state.bug.creator.name }}
+          <small class="pr-2">Reported By:</small>
+          <img
+            class="mx-2"
+            :src="state.bug.creator.picture"
+            alt=""
+            height="40"
+          />
+          {{ state.bug.creator.name }}
         </h3>
       </div>
       <div id="status" class="col-3">

@@ -22,5 +22,4 @@
 [x] Only the DELETE Bug route can be used to close a bug
 [x] The PUT route does not allow the closed status to be changed
 [x] The Client and Server enforce all above independently
-NOTE need this one
-[] Api passes all Postman Tests
+[x] Api passes all Postman Tests

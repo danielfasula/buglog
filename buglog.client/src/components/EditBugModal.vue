@@ -79,8 +79,8 @@ export default {
       state,
       async editBug() {
         try {
-          await bugsService.editBug(state.bug)
           $('#edit-bug').modal('hide')
+          await bugsService.editBug(state.bug)
         } catch (error) {
           logger.log(error)
         }

@@ -2,6 +2,7 @@
   <tbody class="notes" v-if="note.creator">
     <tr>
       <th scope="col">
+        <img :src="note.creator.picture" height="30" class="mr-2" />
         {{ note.creator.name }}
       </th>
       <td scope="col">
