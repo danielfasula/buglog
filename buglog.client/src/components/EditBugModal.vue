@@ -68,6 +68,8 @@ import { bugsService } from '../services/BugsService'
 import { logger } from '../utils/Logger'
 import $ from 'jquery'
 import { AppState } from '../AppState'
+import NotificationService from '../NotificationsService'
+
 export default {
   name: 'EditBugModal',
   setup() {
@@ -81,6 +83,7 @@ export default {
         try {
           $('#edit-bug').modal('hide')
           await bugsService.editBug(state.bug)
+          NotificationService.toast('Bug Edited!')
         } catch (error) {
           logger.log(error)
         }

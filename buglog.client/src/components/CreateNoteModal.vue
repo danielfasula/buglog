@@ -59,6 +59,7 @@ import { notesService } from '../services/NotesService'
 import { logger } from '../utils/Logger'
 import $ from 'jquery'
 import { AppState } from '../AppState'
+import NotificationService from '../NotificationsService'
 export default {
   name: 'CreateNoteModal',
   setup() {
@@ -77,6 +78,7 @@ export default {
           state.newNote.bug = state.bug.id
           await notesService.createNote(state.newNote)
           state.newNote = {}
+          NotificationService.toast('Note Added!')
         } catch (error) {
           logger.log(error)
         }
